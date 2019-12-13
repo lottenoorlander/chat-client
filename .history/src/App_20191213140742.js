@@ -6,8 +6,7 @@ class App extends Component {
 
   componentDidMount() {
     this.stream.onmessage = event => {
-      const parsed = JSON.parse(event.data);
-      console.log(parsed);
+      console.log(event);
     };
   }
 
