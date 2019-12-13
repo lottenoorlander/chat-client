@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import "./App.css";
 import { connect } from "react-redux";
 // import { allMessages } from "./actions";
+import superagent from "superagent";
 
 class App extends Component {
+  state = {
+    text: ""
+  };
+
   stream = new EventSource("http://localhost:4000/stream");
 
   componentDidMount() {
@@ -15,13 +20,36 @@ class App extends Component {
     };
   }
 
+  onChange = event => {
+    const {
+      target: { value }
+    } = event;
+    this.setState({ text: value });
+  };
+
+  onSubmit = async event => {
+    event.preventDefault();
+    const url = "http://localhost:4000/message";
+    const response = await superagent.post(url).send(this.state);
+    this.setState({ text: " " });
+    console.log("this is response", response);
+  };
+
   render() {
     const { messages } = this.props;
     const list = messages.map(message => {
       return <p key={message.id}>{message.text}</p>;
     });
 
-    return <div>Client {list}</div>;
+    return (
+      <main>
+        <form onSubmit={this.onSubmit}>
+          <input type="text" onChange={this.onChange} value={this.state.text} />
+          <button>Submit</button>
+        </form>
+        {list}
+      </main>
+    );
   }
 }
 
