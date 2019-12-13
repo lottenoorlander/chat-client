@@ -42,12 +42,17 @@ class App extends Component {
     });
 
     return (
-      <main>
-        <form onSubmit={this.onSubmit}>
+      <main className="App">
+        <h1>
+          Chatapp
+          <br />
+        </h1>
+        <form onSubmit={this.onSubmit} className="form">
           <input type="text" onChange={this.onChange} value={this.state.text} />
-          <button>Submit</button>
+          <button className="button">Submit</button>
         </form>
-        {list}
+        <br />
+        <div className="chatbox">{list}</div>
       </main>
     );
   }
